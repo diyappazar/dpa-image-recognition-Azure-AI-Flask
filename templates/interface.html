@@ -1,0 +1,81 @@
+<!doctype html>
+<html>
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <script src="https://cdn.tailwindcss.com"></script>
+   </head>
+   <body>
+      <center>
+         <div class="flex justify-center items-center h-screen drop-shadow-2xl w-1/2 h-1/2 mt-12 pt-5 border-sky-500 rounded-xl pb-5 backdrop-blur-md bg-white/30" style="background-image: url('https://cdn.happycloudsolutions.com.au/wp-content/uploads/cloud_background_1920_2-1500x1000.jpeg');">
+            <div class="flex flex-col justify-center space-between items-center h-fit mb-4">
+               {% if desc == "" %}
+               <form action="/" method="post" enctype="multipart/form-data">
+                  <div class="flex justify-center">
+                     <div class="rounded-lg shadow-xl bg-gray-50">
+                        <div class="m-4">
+                           <label class="inline-block mb-2 text-blue-500">File Upload</label>
+                           <div class="flex items-center justify-center w-full">
+                              <label id="labelElement" class="flex flex-col w-full h-full border-4 border-blue-200 border-dashed hover:bg-gray-100 hover:border-gray-300">
+                                 <div class="flex flex-col items-center justify-center pt-7">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-gray-400 group-hover:text-gray-600"
+                                       fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                          d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                                    </svg>
+                                    <p id="filename" class="pt-1 text-sm tracking-wider text-blue-400 group-hover:text-blue-600">
+                                       Attach a file
+                                    </p>
+                                 </div>
+                                 <input onchange="updateFilename(this)" type="file" name="file" class="opacity-0" accept=".jpg, .png, .jpeg|image/*"/>
+                              </label>
+                           </div>
+                        </div>
+                        <div class="flex justify-center p-2">
+                           <button disabled id="uploadButton" class="w-full px-4 py-2 text-white bg-blue-500 rounded shadow-xl mt-3 hover:bg-blue-700 hover:animate-bounce">UPLOAD</button>
+                        </div>
+                     </div>
+                  </div>
+               </form>
+               {% else %}
+               <div class="w-3/5">
+                  <img class="pic rounded-lg" src="{{ url_for('static', filename=filename) }}" alt="" srcset="">
+               </div>
+               <div class="bg-blue-600 p-3 mt-4 pb-6 rounded-lg text-white w-3/5 h-full">
+                  <h2 class="mb-2">
+                  <u>DESCRIPTION</u></h2>
+                  <p>{{ desc }}</p>
+                  <small class=""> Confidence: %{{ confidence }}</small>
+               </div>
+               <div class="bg-blue-500 p-2 mt-2 rounded-lg text-white w-3/5 h-full">
+                  <h2 class="mb-2"><u>TAGS</u></h2>
+                  <p>{{ tags }}</p>
+               </div>
+               <div class="bg-blue-400 p-2 mt-2 rounded-lg text-white w-3/5 h-full">
+                  <h2 class="mb-2"><u>FILE INFORMATION</u></h2>
+                  <p>Filename: {{ filename }}</p>
+                  <p>Width: {{ meta.width }}px</p>
+                  <p>Height: {{ meta.height }}px</p>
+                  <p>Type: {{ meta.format }}</p>
+               </div>
+               <button onclick="location.href = '/'" class="mb-4 text-white bg-blue-500 rounded shadow-xl mt-3 hover:bg-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent hover:animate-bounce rounded mt-5 ">
+               SCAN AGAIN                               
+               </button> {% endif %}
+            </div>
+         </div>
+         <script>
+            function updateFilename(e) {
+                document.getElementById('filename').innerHTML = e.files[0].name
+                document.getElementById('labelElement').classList.remove('border-blue-200');
+                document.getElementById('labelElement').classList.add('border-green-300');
+            
+                document.getElementById('uploadButton').disabled = false;
+                document.getElementById('uploadButton').classList.remove('bg-gray-500');
+                document.getElementById('uploadButton').classList.add('bg-blue-500');
+            
+            }
+         </script>
+         </div>
+      </center>
+   </body>
+</html>
